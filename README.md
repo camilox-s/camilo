@@ -13,18 +13,14 @@ Até o momento, tenho 1 iniciação científica concluída e 1 em andamento. Al�
 ## 📁 Projetos em Destaque
 - [📦 Horcus Consultoria Digital](https://www.instagram.com/consult.horus)  
   Consultoria digital com foco em automação e eficiência.
-  
 - [📊 Planilha de Controle de Estoque Farmacêutico](#) *(em breve)*  
   Sistema inteligente em Excel com alertas de validade e relatórios automáticos.
-
 - [📄 Modelos de POPs e Fichas Digitais](#) *(em breve)*  
   Repositório com documentos úteis e adaptáveis para o dia a dia profissional.
-
 - [🔍 Scripts de Automação em Python](#) *(em breve)*  
   Códigos simples para otimizar tarefas repetitivas na área da saúde.
 
   ## 📬 Entre em contato
-
 - 📧 E-mail: gabrielcamilosouza205@gmail.com
 - 📱 Instagram: [@camilox.s](https://www.instagram.com/camilox.s)
 - 💼 LinkedIn: [Gabriel Camilo de Souza Pereira](https://www.linkedin.com/in/gabriel-camilo-de-souza-pereira-147973258)
