@@ -1,0 +1,68 @@
+tratamento de dados diretamente no sql server
+
+exemplo:
+para conciliar uma planilha nova com vários dados de planilhas diferentes, primeiramente é necessário que eu importe todas as tabelas no sql server. 
+para importar uma tabela que não exeiste, devo primeiramente criar um novo arquivo na minha base de dados. utilizando o comando:
+
+create table "nome da tabela"(
+"nome da coluna" "formato desejado",
+"nome da coluna" "formato desejado",
+"nome da coluna" "formato desejado",
+"nome da coluna" "formato desejado",
+"nome da coluna" "formato desejado",
+)
+
+os formatos variam de acordo com os tipos de dados que serão utilizados, podendo ser eles:
+
+Tipos numéricos
+INT → números inteiros (-2.147.483.648 até 2.147.483.647)
+BIGINT → inteiros muito grandes
+SMALLINT → inteiros pequenos (até 32 mil)
+DECIMAL(p, s) → números decimais com precisão, ex: DECIMAL(10,2) = até 10 dígitos, sendo 2 após a vírgula
+FLOAT → números fracionários com casas decimais, usado quando não precisa de tanta precisão
+
+Tipos de texto
+CHAR(n) → texto de tamanho fixo, bom para códigos (ex: CHAR(2) para siglas de estados)
+VARCHAR(n) → texto de tamanho variável até n caracteres, ideal para nomes, e-mails, etc.
+VARCHAR(MAX) → aceita textos muito grandes (até 2GB)
+
+Tipos de data e hora
+DATE → só data (YYYY-MM-DD)
+TIME → só hora (HH:MM:SS)
+DATETIME → data + hora (até 3 casas de milissegundos)
+DATETIME2 → versão mais precisa e recomendada atualmente
+SMALLDATETIME → data + hora, mas menos preciso (minutos)
+
+Tipos lógicos
+BIT → só aceita 0 ou 1 (booleano)
+
+Tipos especiais
+UNIQUEIDENTIFIER → GUID (identificadores globais)
+VARBINARY(MAX) → arquivos binários (imagens, PDFs, etc)
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+após a criação da tabela, é possível unir dados de tableas diferentes em uma só tabela, sendo necessário seguir o seguinte exemplo:
+
+select * from ITENS             |
+select * from ORDENS            |
+select * from PRODUTOS          | ----> estes 5 comandos possibilitam a visualização das tabelas que foram criadas, assim a visualização fica mais clara e os dados desejados mais visíveis
+select * from CATEGORIA         |
+select * from CLIENTES          |
+
+select
+t1.id as IDVendas                  |
+,t3.Name as Produto                |
+,t4.Categoria                      |
+,t1.TOTAL_PRICE                    |        com as tabelas importadas, é possível reorganizar as colunas importando uma a uma de cada uma das tabelaas, assim, garantindo que a nova tabela
+,t2.status                         | -----> seguirá todas as exigências que eu preferir. o processo pode alterar o nome da tabela importada como exemplificado nas linhas 52,53,58,60 e 61.
+,t2.created_at                     |        o processo de tratamento e confecção da planilha nova pode contemplar múltiplos elementos das antigas tabelas, bem como novos filtros e nomes.
+,t5.first_name as NomeCliente      |
+,t5.email                          |
+,t5.cell_phone as Telefone         |
+,t5.state as Estado                |
+
+from [dbo].[ITENS]				as T1                                  |
+Left Join [dbo].[ORDENS]		as T2 on t1.ORDER_ID = t2.id         |        é importante delimitar que será utilizado como base as tabelas, podendo também renomear as tabelas como se fossem DataFrames para que fique mais fácil tratar os dados, como exemplificado em 
+Left Join [dbo].[PRODUTOS]		as T3 on t1.PRODUCT_ID = t3.ID     | -----> T1, T2, T3, T4 e T5
+Left Join [dbo].[CATEGORIA]		as T4 on t3.Id_Category = t4.ID    |
+Left Join [dbo].[CLIENTES]		as T5 on t2.customer_id = t5.id    |
+
