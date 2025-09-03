@@ -1,0 +1,204 @@
+# EM QUALQUER INÍCIO DE PROJETO, DEVO SEGUIR OS SEGUINTES COMANDOS BASE
+
+import pandas as pd                                                                     # PANDAS É APRINCIPAL BIBLIOTECA QUE VOU USAR NOS MEUS PROJETOS. "pd" É O ENCURTAMENTO QUE USAREI NOS CÓDIGOS PARA ME REFERIR AO PANDAS
+import os                                                                               # OS É UMA EXTENSÃO QUE GERALMENTE EU VOU UTILIZAR COM FREQUÊNCIA, NÃO CUSTA DAR O IMPORT
+import pyodbc                                                                           # EXTENSÃO QUE CAPACITA CONEXÃO COM BASE DE DADOS
+
+# EM CASO DE ARQUIVOS SIMPLES EM xlsx, PRECISO APENAS INDICAR O DIRETÓRIO COMPLETO. O CAMANDO VAI SER:
+dfz = pd.read_'extensão do arquivo'(r'diretório raiz do arquivo')                       # SEMPRE CRIAR O DataFrameZero JÁ NO PRIMEIRO BLOCO. A PARTIR DELE, IREI FAZER O MONTANTE COMPLETO DE TRATAMENTO
+dfz.head(5)
+dfz['coluna de datas'] = pd.to_datetime(df['coluna de datas'])
+dfz['coluna de datas'] = df['coluna de datas'].dt.strftime('%d/%m/%Y %H:%M:%S')         # CONVERTER AS DATAS PARA O PADRÃO BRASILEIRO
+
+# CASO O ARQUIVO SEJA EM csv, PRECISO ADICIONAR UM DELIMITADOR. NESTE CASO, PRECISO UTILIZAR O SEGUINTE COMANDO:
+dfz = pd.read_csv(r'extensão do arquivo', demiliter= ',')                               # EM CASO DE ARQUIVOS csv, A PLANILHA UTILIZA ',' AO INVÉS DE CÉDULAS INDIVIDUAIS. POR ISSO NECESSITO DELIMITAR A ','.
+
+
+# EM CASO DE ARQUIVOS txt, PRECISO APENAS DAR O COMANDO:
+dfz = pd.read_csv(r'extensão do arquivo', demiliter= ',')
+
+
+'VARIÁVEIS'
+# EM QUALQUER CASO, SE FOR NECESSÁRIO, POSSO CRIAR INÚMERAS VARIÁVEIS PARA ME ORGANIZAR DURANTE O TRATAMENTO DE DADOS.
+
+# UM DOS EXEMPLOS, É CRIAR VARIÁVEIS ISOLADAS COM BASE NO ARQUIVO QUE IMPORTEI. EX:
+df_calca = df.loc[df['Name'] == 'Vestido Super curto']              # CRIEI UMA VARIÁVEL QUE SELECIONA, DENTRO DO ARQUIVO QUE EU ESTOU TRATANDO, APENAS CÉDULAS QUE REMETEM À CALÇA
+
+# TAMBÉM POSSO CRIAR LISTAS E DEPOIS ADICIONÁ-LAS À DataFrames:
+itens = ['Calça','TV', 'Perfume','Fogão']                           # A LISTA QUE EU CRIAR PODE CONTER QUALQUER COISA QUE EU QUISER, PRINCIPALMENTE DADOS "CRIPTOGRAFADOS"
+df_itens = df.loc[df['Name'].isin(itens)]                           # ".isin('...')" SIGNIFICA QUE EU QUERO INERIR O QUE ESTÁ DENTRO DO PARÊNTESES, NESTE CASO, UMA LISTA, MAS PODE SER QUALQUER COISA
+
+'TRATAMENTO DE DADOS'
+
+# A PARTE DE TRATAMENTO É INDISPENSÁVEL PARA UM PROJETO LUCRETIVO, DETALHADO E ORGANIZADO:
+
+'TRATANDO NULOS'
+.fillna('...')                                                      # MODIFICA O QUE DEVE ESTAR NO LUGAR DA info 'NaN' OU 'NaT'
+.replace('...')                                                     # RENOMEIA O QUE ESTÁ ESCRITO. PODE ALTERAR *QUALQUER* DADO QUE EU QUISER. (IMPORTANTE PARA CRIPTOGRAFIA, LEMBRANDO QUE DEVO SEMPRE GUARDAR AS INFORMAÇÕES ORIGINAIS EM ALGUM BLOCO ISOLADO PARA NÃO ME PERDER)
+.sort_values(by=['coluna desejada'], ascending= True)               # ORDENA A COLUNA INTEIRA EM ORDEM CRESCENTE
+.sort_values(by=['coluna desejada'], ascending= False)              # ORDENA A COLUNA INTEIRA EM ORDEM DECRESCENTE
+.rename(columns= {'nome original' : 'novo nome', ...})              # ME PERMITE RENOMEAR COMPLETAMENTE AS COLUNAS COM OS NOMES QUE EU QUISER. (IMPORTANTE PARA CRIPTOGRAFIA, LEMBRANDO QUE DEVO SEMPRE GUARDAR AS INFORMAÇÕES ORIGINAIS EM ALGUM BLOCO ISOLADO PARA NÃO ME PERDER)
+.astye('formato desejado')                                          # ME PERMITE ALTERAR O TIPO DE DADO QUE ESTÁ ARMAZENADO
+
+# TAMBÉM POSSO TRATAR DADOS UTILIZANDO CERTOS PADRÕES QUE EU OU TERCEIROS ESTABELECEREM. UM EXEMPLO É:
+mapeamento = {'Maranhão': 'Maranhao', 'Piauí': 'Piaui', 'Goiás': 'Goias','São Paulo':'SPteste'}     #TUDO QUE ESTIVER DENTRO DE CHAVES, É DELIMITADO COMO UM DICIONÁRIO. A INFORMAÇÃO ORIGINAL DEVE VIR ANTES DE ',' E A NOVA INFORMAÇÃO DEPOIS. A NOVA REGRA DEVE VIR DEPOIS DE ':' E A VELA ANTES.
+df['state'] = df['state'].replace(mapeamento)                       # NESTE CASO, EU UTILIZEI O CAMANDO replace PARA ALTERAR TODA UMA COLUNA COM BASE EM UM DICIONÁRIO, LOGO, AS ALTERAÇÕES SEGUIRÃO O PADRÃO ESTABELECIDO DENTRO DO DataFrame DAQUELE DICIONÁRIO
+
+'CASOS ISOLADOS (OU NÃO)'
+
+# CASO A PLANILHA QUE FOR SER ANALISADA ESTEJA EM ALGUMA GUIA DIFERENTE DA MATRIZ, OU ALGUMA COLUNA ESPECÍFICA DEVO UTILIZAR:
+df = pd.read_excel(r"K:\Python\Arquivos\Origem\arquivos_excel\Caquinha.xlsx" ,sheet_name='nome da guia')                                                    # 'sheet_name=' DELIMITA QUAL GUIA DEVE SER UTILIZADA DE GUIA
+
+# CASO A PLANILHA QUE FOR SER ANALISADA ESTEJA EM ALGUMA GUIA DIFERENTE DA MATRIZ, OU ALGUMA COLUNA ESPECÍFICA, E EXISTAM LINHAS 'INÚTEIS', DEVO UTILIZAR:
+tabelaProduto = pd.read_excel(r"K:\Python\Arquivos\Origem\arquivos_excel\Caquinha.xlsx",skiprows= 'número de linhas')                                       # 'skiprows=' DELIMITA QUANTAS LINHAS DEVEM SER PULADAS PARA COMEÇAR A LEITURA DO ARQUIVO
+
+# CASO OS DADOS ESTEJAM EM ALGUM INTERVALO DE LINHAS, DEVO UTILIZAR:
+produto = pd.read_excel(r"K:\Python\Arquivos\Origem\arquivos_excel\Caquinha.xlsx", nrows= 'número da linha última que deve ser analisada')                  # 'nrows=' DELIMITA ATÉ QUAL LINHA A LEITURA DEVE ACONTECER
+
+# CASO OS DADOS ESTEJAM EM APENAS ALGUMA(S) COLUNAS, DEVO UTILIZAR:
+produto = pd.read_excel(r"K:\Python\Arquivos\Origem\arquivos_excel\Caquinha.xlsx" , usecols= 'letra da primeira coluna' : 'letra da última coluna')         # 'usecols=' DELIMITA QUAL(IS) COLUNAS DEVEM SER ANALISADAS
+
+# CASO SEJA NECESSÁRIO RETIRAR DADOS QUE ESTEJAM DUPLICADOS, DEVO UTILIZAR:
+df_sem_duplicatas = df.drop_duplicates()                                                                                                                    # '.drop_duplicates' RETIRA TODAS AS DUPLICATAS DO ARQUIVO (SE FOREM 100% IGUAIS)
+
+'CONSOLIDAÇÃO DE ARQUIVOS'
+
+# A CONSOLIDAÇÃO DE ARQUIVOS UNE TODOS OS ARQUIVOS QUE ESTÃO DENTRO DE UMA PASTA, ´QUE CONTÉM A MESMA EXTENSÃO DE DIRETÓRIO (EX:.xlsx) EM UM ÚNICO ARQUIVO, AMAZENANDO-OS EM UM DataFrame.
+# PARA REALIZAR A CONSOLIDAÇÃO DE DADOS DEVO UTILIZAR O SEGUINTE COMANDO:
+diretorio = (r'diretório raiz do arquivo')
+
+dados = []
+for aquivo in os.listdir(diretorio):
+    if arquivo.endswitch(diretorio):
+        caminho_arquivo = os.path.join(diretorio, arquivo)
+        df = pd.read_excel(caminho_arquivo)
+        dados.append(df)
+
+consolidado = pd.concat(dados)
+consolidado.head(5)
+
+'PARA REALIZAR O SALVAMENTO DE ARQUIVOS TRATADOS NA MINHA MÁQUINA'
+
+# OS COMANDOS SÃO SIMPLES:
+
+'PARA EXCEL'
+pasta_destino = r'diretório de destino da pasta'                    # NESTE CASO, DEVO SEMPRE LEMBRAR DE INCLUIR +1 BARRA INVERTIDA LOGO APÓS DAS QUE JÁ TEM NORMALMENTE
+nome_arquivo = 'nome desejado'
+caminho_completo = pasta_destino + nome_arquivo
+consolidado.to_csv(caminho_completo, index=False)
+
+'PARA CSV'
+pasta_destino = r'diretório de destino da pasta'                    # NESTE CASO, DEVO SEMPRE LEMBRAR DE INCLUIR +1 BARRA INVERTIDA LOGO APÓS DAS QUE JÁ TEM NORMALMENTE
+nome_arquivo = 'nome desejado'
+caminho_completo = pasta_destino + nome_arquivo
+consolidado.to_csv(caminho_completo, index=False, sep=',')
+
+'PARA TXT'
+pasta_destino = r'diretório de destino da pasta'                    # NESTE CASO, DEVO SEMPRE LEMBRAR DE INCLUIR +1 BARRA INVERTIDA LOGO APÓS DAS QUE JÁ TEM NORMALMENTE
+nome_arquivo = 'nome desejado'
+caminho_completo = pasta_destino + nome_arquivo
+consolidado.to_csv(caminho_completo, index=False, sep=',')
+
+'CONVERSÃO DE DADOS'
+
+# PRIMEIRAMENTE, PARA DESCOBRIR O TIPO DE CADA UM DOS DADOS PRESENTES EM UM ARQUIVO, DEVO UTILIZAR:
+for coluna in df.columns:
+    print(f"Coluna: {coluna}, Tipo de dados: {df[coluna].dtypes}")
+
+## DICIONÁRIO DE TERMINAÇÕES
+# NÚMEROS INTEIROS  = int
+# NÚMEROS DECIMAIS  = float
+# TEXTO COMUM       = str OU Object
+# DATA1             = datetime
+
+## PARA ALTERAR OS DADOS DE ACORDO COM A TERMINAÇÃO
+df['coluna desejada'] = df['coluna desejada'].astype('fomato desejado')
+
+'CRIAÇÃO DE COLUNAS A PARTIR DE COLUNAS EXISTENTES'
+
+# ÚTIL NA CRIAÇÃO DE NOVAS COLUNAS, MELHORANDO A VISIBILIDADE DO ARQUIVO FINAL
+df['nova coluna'] = df['coluna 1'] + ' ' + df['coluna 2']
+
+'PARA VISUALIZAR APENAS ALGUMA COLUNAS DURANTE O TRATAMENTO DE DADOS'
+
+# ÚTIL CASO O TRATAMENTO NÃO ENVOLVA TODAS AS COLUNAS DO ARQUIVO
+Colunas = ['coluna 1', 'coluna 2', 'coluna 3', '...']
+
+#PARA CONECTAR O MEU VSCODE À ALGUMA BASE DE DADOS DEVO UTILIZAR O COMANDO
+
+import pandas as pd
+import pyodbc
+
+server = 'nome do servidor'                                     # AQUI EU CRIEI UMA VARIÁVEL PARA LOCALIZAR O MEU SERVIDOR
+database = 'nome do banco de dados'                             # AQUI EU CRIEI UMA VARIÁVEL PARA LOCALIZAR MEU BANCO DE DADOS
+conexaoDB = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};'      # A PARTIR DAQUI EU CRIEI UM CAMINHO COMPLETO PARA QUE ELE EXECUTE A CONEXÃO CORRETAMENTE
+                           f'SERVER={server};'
+                           f'DATABASE={database};'
+                           'Trusted_Connection=yes;')
+
+cursor = conexaoDB.cursor()                                     # ESTE CURSOR GARANTE QUE TUDO QUE EU EXECUTE AQUI, EXECUTE NO MEU BANCO DE DADOS
+
+
+#CASO A MINHA CONEXÃO NECESSITE DE USUÁRIO E SENHA, DEVO UTILIZAR:
+
+server = 'nome do servidor'                                     # AQUI EU CRIEI UMA VARIÁVEL PARA LOCALIZAR O MEU SERVIDOR
+database = 'nome do banco de dados'                             # AQUI EU CRIEI UMA VARIÁVEL PARA LOCALIZAR MEU BANCO DE DADOS
+conexaoDB = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};'      # A PARTIR DAQUI EU CRIEI UM CAMINHO COMPLETO PARA QUE ELE EXECUTE A CONEXÃO CORRETAMENTE
+                           f'SERVER={server};'                  # AQUI DELIMITEI O SERVIDOR
+                           f'DATABASE={database};'              # AQUI DELIMITEI O BANCO DE DADOS
+                           f'usuario= "usuário";'               # AQUI DELIMITEI O USUÁRIO
+                           f'senha= "senha";'                   # AQUI DELIMITEI A SENHA
+                           'Trusted_Connection=yes;')           # AQUI DELIMITEI QUE ERA PARA ELE REALMENTE CONECTAR NESTE BANCO DE DADOS
+
+cursor = conexaoDB.cursor()                                     # ESTE CURSOR GARANTE QUE TUDO QUE EU EXECUTE AQUI, EXECUTE NO MEU BANCO DE DADOS
+
+#APÓS REALIZAR COMPLETAMENTE O TRATAMENTO DOS DADOS, PARA INSERIR O DataFrame TRATADO DENTRO DO SQL, DEVO UTILIZAR:
+
+for index, linha in 'nome do dataframe'.iterrows():                                                                                                                         # DENTRO DO NOSSO ARQUIVO EXCEL, ELE VAI ANALISAR LINHA A LINHA E ARMAZENAR NO LOOP
+
+    cursor.execute("INSERT INTO [PRODUTOS] (ID,Name,Price,Id_Category) VALUES (?, ?, ?, ?)",linha["ID"], linha["Name"], linha["Price"], linha["Id_Category"])               # ESTE COMANDO INTEIRO GARANTE QUE TODOS OS DADOS SEJAM ENVIADOS CORRETAMENTE PARA O SQL COM TODA A TRATATIVA DINÂMICA. OS "?" SERVEM PARA REGISTAR QUE A CADA 
+                                                                                                                                                                            # VARIÁVEL DE COLUNAS E LINHAS ELE VAI ARMAZENAR VALORES DIFERENTES DO ANTERIOR
+cursor.commit()         # ESTE COMANDO GARANTE QUE O SQL GUARDE OS DADOS QUE O VSCODE ESTÁ LEVANDO PARA ELE
+cursor.close()          # ESTE COMANDO FAZ COM QUE A TAREFA SEJA EXECUTADA COMPLETAMENTE E DEPOIS SEJA CONCLUÍDA
+conexaoDB.close()       # ESTE COMANDO GARANTE QUE APÓS A CONCLUSÃO DA TAREFA, A CONEXÃO ENTRE SQL E VSCODE SEJA CESSADA
+
+#CASO EU NECESSITE EXCLUIR DADOS ANTES DE INSERIR NOVOS DADOS, DEVO UTILIZAR O COMANDO:
+
+cursor.execute('truncate table ['nome da tabela']')         # ESTE COMANDO APAGA TODOS OS DADOS QUE EXISTEM NA TABELA
+cursor.commit()                                             # ESTE COMANDO GARANTE QUE OS DADOS SEJAM ARMAZENADOS E NÃO TRAVE A VISUALIZAÇÃO NO SQL SERVER
+
+#PARA EU SABER OS TIPOS DE DADOS QUE EU TENHO NA TABELA, DEVO UTILIZAR O COMANDO
+
+str('nome do DataFrame'.columns).replace("'","")
+
+# PARA EU IMPORTAR DADOS DO SQL PARA O PYTHON, AFIM DE EXECUTAR TRATATIVAS, PRECISO PRIMEIRAMENTE CRIAR A CONEXÃO COM O SQL
+
+import pandas as pd
+import pyodbc
+
+server = 'nome do servidor'                                     # AQUI EU CRIEI UMA VARIÁVEL PARA LOCALIZAR O MEU SERVIDOR
+database = 'nome do banco de dados'                             # AQUI EU CRIEI UMA VARIÁVEL PARA LOCALIZAR MEU BANCO DE DADOS
+conexaoDB = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};'      # A PARTIR DAQUI EU CRIEI UM CAMINHO COMPLETO PARA QUE ELE EXECUTE A CONEXÃO CORRETAMENTE
+                           f'SERVER={server};'
+                           f'DATABASE={database};'
+                           'Trusted_Connection=yes;')
+
+cursor = conexaoDB.cursor()                                     # ESTE CURSOR GARANTE QUE TUDO QUE EU EXECUTE AQUI, EXECUTE NO MEU BANCO DE DADOS
+
+# APÓS ISSO, PRECISO CRIAR O DataFrame COM O CAMINHO QUE SERÁ SEGUIDO ATÉ O ARQUIVO
+
+tabela1 = pd.read_sql('select * from "nome da tabela no SQL"', conexaoDB)
+tabela1.head(5)
+
+# SE CASO SEJA NECESSÁRIO IMPORTAR UMA TABELA COM REQUISITOS ESPECÍFICOS, DEVO EXECUTAR O CÓDIGO NA SEGUINTE FORMA
+
+Query = """
+
+select * from "nome da tabela"
+where "coluna desejada" in ("filtro 1", "filtro 2", "filtro 3", "filtro 4", ...)
+and "outra coluna desejada" in ("filtro 1", "filtro 2", "filtro 3", "filtro 4", ...)
+
+"""
+clientes_estaduais = pd.read_sql(tabela1, conexaoDB)
+clientes_estaduais.head(5)
+
